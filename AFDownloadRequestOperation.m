@@ -210,6 +210,9 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 
 - (id)responseObject {
     @synchronized(self) {
+        // found if i got wrong url, the failureBlock cannot callback. because of the self.error is set by super.responseObject. so:
+        [super responseObject];        
+
         if (!_responseObject && [self isFinished] && !self.error) {
             NSError *localError = nil;
             if ([self isCancelled]) {
